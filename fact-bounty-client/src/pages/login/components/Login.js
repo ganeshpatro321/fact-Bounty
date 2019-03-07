@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper            from '@material-ui/core/Paper'
 import Typography       from '@material-ui/core/Typography'
 import withStyles       from '@material-ui/core/styles/withStyles'
+import Modal            from '@material-ui/core/Modal'
 
 import {loginUser} from '../actions/authActions'
 // import '../styles/login.sass';
@@ -56,7 +57,8 @@ class Login extends Component {
 		this.state = {
 			email: '',
 			password: '',
-			errors: {}
+			errors: {},
+			modalOpen: false
 		}
 	}
 
@@ -89,6 +91,15 @@ class Login extends Component {
 		}
 		this.props.loginUser(userData) // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
 	}
+
+	handleOpen = () => {
+		this.setState({ modalOpen: true });
+	};
+
+
+	handleClose = () => {
+		this.setState({ modalOpen: false });
+	};
 
 	render() {
 		const {errors} = this.state
@@ -139,8 +150,41 @@ class Login extends Component {
 								color="primary" className={this.props.classes.submit}>
 							Login
 						</Button>
+						<Button onClick={this.handleOpen}>Forgot Password?</Button>
 					</form>
 				</Paper>
+				<Modal 
+					open={this.state.modalOpen}
+					onClose={this.handleClose}
+				>
+				<main className={this.props.classes.main}>
+				<Paper className={this.props.classes.paper}>
+				<Typography component="h1" variant="h5">
+						Forgot Paasword?
+				</Typography>
+				<Typography variant="body1">
+						Enter your email address, we will send you a reset link!
+				</Typography>
+				<form noValidate onSubmit={this.onEmailSubmit} className={this.props.classes.form}>
+						<FormControl margin="normal" required fullWidth>
+							<InputLabel htmlFor="email">Email Address</InputLabel>
+							<Input onChange={this.onChange}
+								   value={this.state.email}
+								   error={errors.email}
+								   id="email"
+								   type="email"
+								   className={classnames('', {
+									   invalid: errors.email || errors.emailnotfound
+								   })}/>
+							<span className="red-text">
+									{errors.email}
+								{errors.emailnotfound}
+								</span>
+						</FormControl>		   
+				</form>
+				</Paper>
+				</main>
+				</Modal>
 			</main>
 
 		)
