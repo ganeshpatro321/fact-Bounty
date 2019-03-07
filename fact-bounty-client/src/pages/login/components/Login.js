@@ -159,8 +159,11 @@ class Login extends Component {
 				>
 				<main className={this.props.classes.main}>
 				<Paper className={this.props.classes.paper}>
+				<Avatar className={this.props.classes.avatar}>
+						<LockOutlinedIcon/>
+				</Avatar>
 				<Typography component="h1" variant="h5">
-						Forgot Paasword?
+						Forgot Password?
 				</Typography>
 				<Typography variant="body1">
 						Enter your email address, we will send you a reset link!
